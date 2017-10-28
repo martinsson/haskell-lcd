@@ -1,6 +1,16 @@
 import Test.Hspec
 
+newtype Amount = Amount { value :: Int }
+	deriving (Show, Eq)
+
 main = hspec $ do
-  describe "This is my math test" $ do
-    it "adds two natural numbers" $ do
-      (1 + 1) `shouldBe` 2
+  describe "bankaccount" $ do
+    it "new account should be 0" $ do
+      add (Amount 60) (Amount 40) `shouldBe` (Amount 100)
+
+
+add :: Amount -> Amount -> Amount 
+add (Amount x) (Amount y) = Amount (x + y)  
+
+
+
