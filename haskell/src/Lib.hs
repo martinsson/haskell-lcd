@@ -1,8 +1,8 @@
 import Test.Hspec
 
-main = hspec $ do 
-  describe "BonulMalus"$ do
-    it "new drivers pay 100% of the fee" $
+main = hspec $ 
+  describe "BonulMalus"$ 
+    it "new drivers pay 100% of the fee" $ do
       bonus New `shouldBe` B 100
 
 data History = New
