@@ -2,8 +2,8 @@
 import Data.List
 import Data.Map.Strict as Map
 
-numbers :: Map Char [String]
-numbers = fromList [('0', [" _ ", 
+lcdDigits :: Map Char [String]
+lcdDigits = fromList [('0', [" _ ", 
                            "| |",
                            "|_|"]),
                     ('1', ["   ",
@@ -39,14 +39,14 @@ newtype LcdString = LcdString [String]
 
 instance Monoid LcdString where
   mempty = LcdString ["", "", ""]
-  mappend (LcdString a) (LcdString b) = LcdString $ zipWith (++) a b
+  mappend (LcdString linesFst) (LcdString linesSnd) = LcdString $ zipWith (++) linesFst linesSnd
 
 instance Show LcdString where
   show (LcdString lines) = intercalate "\n" lines
 
 charToLcd :: Char -> LcdString 
-charToLcd char = LcdString $ Map.findWithDefault zeroLcd char numbers
-                  where zeroLcd = ["", "", ""]
+charToLcd char = LcdString $ Map.findWithDefault emptyLines char lcdDigits
+                  where emptyLines = ["", "", ""]
 
 toLcd :: String -> LcdString
 toLcd input = mconcat $ Prelude.map charToLcd  input
