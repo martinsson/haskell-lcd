@@ -55,14 +55,12 @@ instance Monoid LcdString where
 instance Show LcdString where
   show (LcdString lines) = intercalate "\n" lines
 
-toLcd :: String -> LcdString
-toLcd input = mconcat $ Maybe.mapMaybe getLcdDigit input where
-                getLcdDigit :: Char -> Maybe LcdString
-                getLcdDigit char = Map.lookup char lcdDigits
-
+toLcdDigits :: String -> [LcdString]
+toLcdDigits input = Maybe.mapMaybe getLcdDigit input where
+                      getLcdDigit char = Map.lookup char lcdDigits
 
 toLcdString :: String -> String
-toLcdString = show . toLcd
+toLcdString = show . mconcat . toLcdDigits
 
 main :: IO ()
 main = putStrLn (toLcdString "0123456789")
