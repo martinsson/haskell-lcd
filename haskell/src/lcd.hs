@@ -1,4 +1,5 @@
 -- import Test.Hspec
+import Data.List
 import Data.Map.Strict as Map
 
 numbers :: Map Char [String]
@@ -10,16 +11,22 @@ numbers = fromList [('0', [" _ ",
                            "  |"])
                    ]
 
-charToLcd :: Char -> [String]
-charToLcd char = Map.findWithDefault zeroLcd char numbers
+newtype LcdString = LcdString [String]
+
+instance Monoid LcdString where
+  mempty = LcdString ["", "", ""]
+  mappend (LcdString a) (LcdString b) = LcdString $ zipWith (++) a b
+
+charToLcd :: Char -> LcdString 
+charToLcd char = LcdString $ Map.findWithDefault zeroLcd char numbers
                   where zeroLcd = ["", "", ""]
 
-toLcd :: String -> [String] 
-toLcd input = zipWith (++) $ Prelude.map charToLcd  input
+toLcd :: String -> LcdString
+toLcd input = mconcat $ Prelude.map charToLcd  input
 
 toLcdString :: String -> String
-toLcdString input = join "\n" $ toLcd input
+toLcdString input = let (LcdString lines) = toLcd input in
+			intercalate "\n" lines
 
 main :: IO ()
-main = print ( toLcdString "0123456789")
-
+main = putStrLn (toLcdString "01")
