@@ -1,4 +1,6 @@
 -- import Test.Hspec
+module Lcd (toLcdString) where 
+
 import Data.List
 import Data.Map.Strict as Map
 import Data.Maybe as Maybe
@@ -62,5 +64,3 @@ toLcdDigits input = Maybe.mapMaybe getLcdDigit input where
 toLcdString :: String -> String
 toLcdString = show . mconcat . toLcdDigits
 
-main :: IO ()
-main = putStrLn (toLcdString "0123456789")
