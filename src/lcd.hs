@@ -1,4 +1,3 @@
--- import Test.Hspec
 module Lcd (toLcdString) where 
 
 import Data.List
