@@ -1,5 +1,6 @@
 import Test.Hspec
 import Lcd
+import Data.Either
 
 main = hspec $
   describe "toLcdString" $ do
@@ -11,3 +12,8 @@ main = hspec $
       toLcdString "0123456789" `shouldBe` " _     _  _     _  _  _  _  _ \n" ++
                                           "| |  | _| _||_||_ |_   ||_||_|\n" ++
                                           "|_|  ||_  _|  | _||_|  ||_| _|" 
+ 
+    it "should validate input" $ 
+      toLcdResult "1ab" `shouldBe` (Left "'a,b' don't have a LCD representation")
+    it "should validate input" $ 
+      toLcdResult "12" `shouldSatisfy` isRight
